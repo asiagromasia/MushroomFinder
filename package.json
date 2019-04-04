@@ -1,0 +1,29 @@
+{
+  "name": "itc230",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asiagromasia/ITC230.git"
+  },
+  "keywords": [
+    "javascript",
+    "js",
+    "is",
+    "awesome"
+  ],
+  "author": "asia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/asiagromasia/ITC230/issues"
+  },
+  "homepage": "https://github.com/asiagromasia/ITC230#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "lodash": "^4.17.11"
+  }
+}
