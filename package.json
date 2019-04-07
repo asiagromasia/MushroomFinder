@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/asiagromasia/ITC230.git"
+    "url": "git+https://github.com/asiagromasia/itc230.git"
   },
   "keywords": [
     "javascript",
@@ -19,9 +19,9 @@
   "author": "asia",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/asiagromasia/ITC230/issues"
+    "url": "https://github.com/asiagromasia/itc230/issues"
   },
-  "homepage": "https://github.com/asiagromasia/ITC230#readme",
+  "homepage": "https://github.com/asiagromasia/itc230#readme",
   "dependencies": {
     "express": "^4.16.4",
     "lodash": "^4.17.11"
