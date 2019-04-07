@@ -4,11 +4,7 @@ http.createServer((req,res) => {
   switch(path) {
     case '/':
       res.writeHead(200, {'Content-Type': 'text/plain'});
-<<<<<<< HEAD
       res.end('Welcome to Home page');
-=======
-      res.end('Home page');
->>>>>>> caedf6a6002125af80c4382d5defd2a9c1b87fae
       break;
     case '/about':
       res.writeHead(200, {'Content-Type': 'text/plain'});
