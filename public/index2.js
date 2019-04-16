@@ -1,6 +1,6 @@
 'use strict'
 var http = require("http"), fs = require('fs'), qs = require("querystring");
-var mushrooms = require('../lib/mushrooms.js');
+var mushroom = require('../lib/mushrooms.js');
 
 function serveStatic(res, path, contentType, responseCode){
   if(!responseCode) responseCode = 200;
@@ -28,8 +28,8 @@ http.createServer((req,res) => {
     
   switch(path) {
     case '/':
-      res.writeHead(200, {'Content-Type': 'text/plain'});
-      //res.end('Welcome to Home page!!!!!');
+     // res.writeHead(200, {'Content-Type': 'text/plain'});
+    //  res.end('Welcome to Home page!!!!!');
         serveStatic(res, '/../public/home.html', 'text/html');
       break;
     case '/about':
@@ -37,36 +37,25 @@ http.createServer((req,res) => {
       res.end('Welcome to about page!');
       break;
     case '/get':
-      var found = mushrooms.get(query.name); // get mushroom object  
+      let found = mushroom.get(query.name); // get mushroom object  
       res.writeHead(200, {'Content-Type': 'text/plain'});
       let results = (found) ? JSON.stringify(found) : "Not found";
           console.log(results);
-       res.end('Results for mushroom name ' + query.name + "\n" + query.size +"\n"+ mushrooms.location+ mushrooms.get() );
-        res.end('Results for mushroom name ' + query.name + "\n" + results);
-    
+        res.end('Results for mushroom name ' + query.name + "\n" + mushrooms.size);
+//      res.end('Results for mushroom name ' + query.name + "\n" + results);
       break;   
       case '/getall':
-         // var getAll = mushrooms.getAll();
           res.writeHead(200, {'Content-Type': 'text/plain'});
-          res.end('Here are all mushrooms: ' + mushrooms.getAll());
+          res.end('Here are all mushrooms: ');
         break;
           
     case '/delete':
       res.writeHead(200, {'Content-Type': 'text/plain'});
         res.end('delete');
       break;
-    case '/add':
-        res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.end('add');
-      break;
     default:
       res.writeHead(404, {'Content-Type': 'text/plain'});
       res.end('Not found');
       break;
-    
-          
-          
     }
 }).listen(process.env.PORT || 3000);
-
-
