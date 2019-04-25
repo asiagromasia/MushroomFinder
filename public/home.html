@@ -16,6 +16,14 @@
             <button type="submit">Submit</button>
         </div>
 </form> 
+    <p>Current list of mushrooms:</p>
+<ul>
+    {{#each mushrooms}}
+    <li>{{result.name}}</li>
+    {{/each}}
+
+</ul>
+
 
 </body>
 </html>
