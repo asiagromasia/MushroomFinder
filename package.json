@@ -9,5 +9,10 @@
     "body-parser": "^1.18.3",
     "express": "~4.16.0",
     "express-handlebars": "^3.0.2"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "eslint": "^5.16.0",
+    "mocha": "^6.1.4"
   }
 }

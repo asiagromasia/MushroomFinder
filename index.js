@@ -34,20 +34,14 @@ app.get('/getall', (req,res) => {
 // handle GET 
 app.get('/delete', (req,res) => {
     let delMush = mushrooms.delete(req.query.name); // delete book object
-    res.render('delete', {title: req.query.name, result: delMush});
+    res.render('delete', {name: req.query.name, result: delMush});
 });
 
 // handle POST
 app.post('/search', (req,res) => {
     res.type('text/html');
     console.log(req.body) //display parsed form submission
-    var header = 'Searching for: ' + req.body.name + '<br>';
-    var found = mushroom.find(req.body.name);
-    if (found){
-        res.send(header + "Found:" + found.length);
-    } else {
-        res.send(header + "Not found");
-    }
+    var found = mushrooms.get(req.body.name);
     res.render("details", {name: req.body.name, result: found});
 });
 
