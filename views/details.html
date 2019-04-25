@@ -1,0 +1,12 @@
+<html>
+<body>
+  <h2>Details for {{name}}</h2>
+  {{#if result}}
+    <li>Name: {{ result.name }}
+    <li>Size: {{ result.size }}
+    <li>Location: {{ result.location }}
+  {{else}}
+    not found
+  {{/if}}
+</body>
+</html> 

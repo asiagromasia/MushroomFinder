@@ -4,15 +4,17 @@
 
 <h2>Witaj in JavaScript class!</h2>
 
-<p id="demo"></p>
 
-<script>
-// Create an object:
-var car = {type:"Fiat", model:"500", color:"white"};
-
-// Display some data from the object:
-document.getElementById("demo").innerHTMl = "The car type is " + car.type;
-</script>
+<form method="POST" action="/search">
+    <input type=hidden name="hush" val="hidden, but not secret!">
+        <div>
+            <label for="mashName">Find following mushroom:</label>
+            <input type="text" id="mashName" name="mushroom">
+        </div>
+        <div>
+            <button type="submit">Submit</button>
+        </div>
+</form> 
 
 </body>
 </html>
