@@ -13,5 +13,8 @@
         "sourceType": "module"
     },
     "rules": {
-    }
+        "no-console": "off",
+   "prefer-arrow-callback": "warn",
+   "no-var": "warn"
+ }
 }

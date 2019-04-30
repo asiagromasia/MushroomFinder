@@ -19,7 +19,7 @@
     <p>Current list of mushrooms:</p>
 <ul>
     {{#each mushrooms}}
-    <li>{{name}}</li>
+    <li><a href="/get?name={{name}}">{{name}}</a></li>
     {{/each}}
 
 </ul>
@@ -27,3 +27,4 @@
 
 </body>
 </html>
+
