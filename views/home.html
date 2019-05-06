@@ -16,6 +16,19 @@
             <button type="submit">Submit</button>
         </div>
 </form> 
+    <form method="POST" action="/add">
+        <div>
+            <label for="newMush">Add new mushroom:</label>
+            <input type="text" id="newMush" name="name">
+            <label for="newMush"> size:</label>
+            <input type="text" id="newMushs" name="size">
+            <label for="newMush">location:</label>
+            <input type="text" id="newMush" name="location">
+        </div>
+        <div>
+            <button type="submit">Submit</button>
+        </div>
+</form>     
     <p>Current list of mushrooms:</p>
 <ul>
     {{#each mushrooms}}

@@ -4,11 +4,12 @@ let mushrooms = require("./lib/mushrooms.js");
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
-const mongoose = require('mongoose');
+//const mongoose = require("mongoose");
 const back_link = "<p><a href='/'>Back</a>";
+//const mushroom = require("./models/mushroom.js");
 
 app.set('port', process.env.PORT || 4000);
-app.use(express.static ('/public')); // set location for static files
+app.use(express.static ('/public')); // set default location for static files
 app.use(bodyParser.urlencoded({extended: true})); // parse form submissions
 
 let handlebars =  require("express-handlebars");
@@ -24,18 +25,22 @@ app.get('/', (req, res) => {
 
 // send plain text response
 app.get('/about', (req, res) => {
+    //res.send('a get request with /about route on port 4000 ');
     res.type('text/html');
     res.render('about');
+    //res.redirect('http://www.expressjs.com/en/guide/using-middleware.html');
 });
 
 app.get('/getall', (req,res) => {
     let mushrCont = mushrooms.getAll();
     res.writeHead(200, {'Content-Type': 'text/plain'});
     res.end('Here are all mushrooms: ' + "\n" + JSON.stringify(mushrCont));
-});      
+});    
+
 app.get('/get', (req,res) => {
     let result = mushrooms.get(req.query.name.toLowerCase()); //get mushroom object
     res.type('text/html');
+    //middleware are all functions happening before we send respone back(all above here) 
     res.render('details', {name: req.query.name, result: result}); 
 })
 
@@ -54,13 +59,14 @@ app.post('/search', (req,res) => {
     res.render("details", {name: req.body.name, result: found});
 });
 app.post('/add', (req,res) => {
+    res.type('text/html');
+    console.log(req.body) //display parsed form submission
     let newMushroom = {"name":req.body.name, "size":req.body.size, "location":req.body.location}
-    res.writeHead(200, {'Content-Type': 'text/plain'});
     let result = mushrooms.add(newMushroom);
     if (result.added) {
-        res.send("Added: " + req.body.name + "<br>New total = " +result.total + back_link);
-    } else{
-        res.sen("Updated: " + req.body.name + back_link);
+        res.send("Added:" + req.body.name + "<br>New total = " +result.total + back_link);
+    } else {
+        res.end('details' + req.body.name + back_link);
     }
     
 });
