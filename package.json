@@ -3,20 +3,18 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "lint": "eslint **/*.js",
+    "test": "mocha test/**"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "~4.16.0",
-    "express-handlebars": "^3.0.2"
+    "express-handlebars": "^3.0.2",
+    "mongoose": "^5.5.5"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "eslint": "^5.16.0",
     "mocha": "^6.1.4"
-  },
-    "scripts": {
-    "lint": "eslint **/*.js",
-    "test": "mocha test/**"
-} 
+  }
 }

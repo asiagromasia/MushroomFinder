@@ -1,12 +1,14 @@
 'use strict'
 let mushrooms = require("./lib/mushrooms.js");
-const query = require('querystring');
+//const query = require('querystring');
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
+const mongoose = require('mongoose');
+const back_link = "<p><a href='/'>Back</a>";
 
 app.set('port', process.env.PORT || 4000);
-app.use(express.static(__dirname + '/public')); // set location for static files
+app.use(express.static ('/public')); // set location for static files
 app.use(bodyParser.urlencoded({extended: true})); // parse form submissions
 
 let handlebars =  require("express-handlebars");
@@ -16,34 +18,31 @@ app.set("view engine", ".html");
 // send static file as response
 app.get('/', (req, res) => {
     const mush = mushrooms.getAll();
- res.type('text/html');
-// res.sendFile(__dirname + '/public/home.html'); 
+    res.type('text/html');
     res.render('home', {mushrooms: mush});
 });
 
 // send plain text response
 app.get('/about', (req, res) => {
- res.type('text/plain');
-   const about2= mushrooms.getAll();
-//res.sendFile(__dirname + '/views/about.html');
-   res.render('about', {mushrooms: about2});
+    res.type('text/html');
+    res.render('about');
 });
 
 app.get('/getall', (req,res) => {
-          let mushrCont = mushrooms.getAll();
-          res.writeHead(200, {'Content-Type': 'text/plain'});
-          res.end('Here are all mushrooms: ' + "\n" + JSON.stringify(mushrCont));
+    let mushrCont = mushrooms.getAll();
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end('Here are all mushrooms: ' + "\n" + JSON.stringify(mushrCont));
 });      
 app.get('/get', (req,res) => {
-    let found = mushrooms.get(req.query.name) //get mushroom object
-    let results = (found) ? JSON.stringify(found) : " Item Not found";
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.render('details', {name: req.query.name, result: found})
+    let result = mushrooms.get(req.query.name.toLowerCase()); //get mushroom object
+    res.type('text/html');
+    res.render('details', {name: req.query.name, result: result}); 
 })
 
 // handle GET 
 app.get('/delete', (req,res) => {
-    let delMush = mushrooms.delete(req.query.name); // delete book object
+    let delMush = mushrooms.delete(req.query.name); // delete mushroom object
+    res.type('text/html');
     res.render('delete', {name: req.query.name, result: delMush});
 });
 
@@ -53,6 +52,17 @@ app.post('/search', (req,res) => {
     console.log(req.body) //display parsed form submission
     let found = mushrooms.get(req.body.name);
     res.render("details", {name: req.body.name, result: found});
+});
+app.post('/add', (req,res) => {
+    let newMushroom = {"name":req.body.name, "size":req.body.size, "location":req.body.location}
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    let result = mushrooms.add(newMushroom);
+    if (result.added) {
+        res.send("Added: " + req.body.name + "<br>New total = " +result.total + back_link);
+    } else{
+        res.sen("Updated: " + req.body.name + back_link);
+    }
+    
 });
 
 
