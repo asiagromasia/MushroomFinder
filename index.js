@@ -1,12 +1,13 @@
 'use strict'
 let mushrooms = require("./lib/mushrooms.js");
+//let Mushrooms = require("./models/mushroom.js");
+
 //const query = require('querystring');
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 //const mongoose = require("mongoose");
 const back_link = "<p><a href='/'>Back</a>";
-//const mushroom = require("./models/mushroom.js");
 
 app.set('port', process.env.PORT || 4000);
 app.use(express.static ('/public')); // set default location for static files
@@ -66,7 +67,7 @@ app.post('/add', (req,res) => {
     if (result.added) {
         res.send("Added:" + req.body.name + "<br>New total = " +result.total + back_link);
     } else {
-        res.end('details' + req.body.name + back_link);
+        res.end( req.body.name + " is already in our database" + back_link);
     }
     
 });

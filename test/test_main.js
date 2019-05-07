@@ -1,18 +1,9 @@
+'use strict'
 const expect = require("chai").expect;
 const mushrooms = require("../lib/mushrooms");
 /*const validatePassword = (password) => {
-    return (password.toLowerCase() != password);
-}
-const getsMushroom = (mushroom) => {
-    return (mushroom.toLowerCase() != mushroom);
-}
-const addsnewMushroom = (newMushroom) => {
-    return (newMushroom.toLowerCase() != newMushroom);
-}
-const deleteMushroom = (mushroom) => {
-    return (mushroom.toLowerCase() != mushroom);
-}
-*/
+    return (password.toLowerCase() != password); */
+
 
 describe("Mushrooms module", () => {
  it("returns requested mushroom", () => {
@@ -24,28 +15,24 @@ describe("Mushrooms module", () => {
    const result = mushrooms.get("fake");
    expect(result).to.be.undefined;
  });
-});
 
-describe("Mushrooms module", () => {
  it("deletes requested mushroom", () => {
    const result = mushrooms.delete("morel");
-   expect(result).should.not.exist;
+   expect(result.deleted).to.be.true;
  });
- it("fails when mushroom still there", () => {
-   const result = mushrooms.get("morel");
-   expect(result).to.deep.equal({name: "Morel", size: 3, location: "Mason Lake"});
+ it("fails to delete an invalid mushroom", () => {
+   const result = mushrooms.delete("morelsss");
+   expect(result.deleted).to.be.false;
  });
-}); 
 
-describe("Mushrooms module", () => {
- it("adds new mushroom", () => {
-   const result = mushrooms.add("bolete");
-   expect(result).to.deep.equal({name: "bolete", size: 3, location: "Mason Mountain"});
+ it("adds a new mushroom", () => {
+   const result = mushrooms.add({name: "bolete", size: "3", location: "Mason Mountain"});
+   expect(result.added).to.be.true;
  });
  
- it("fails when new mushroom not there", () => {
-   const result = mushrooms.get("bolete");
-   expect(result).to.be.false;
+ it("fails to add existing mushroom", () => {
+   const result = mushrooms.add({name: "Morel", size: 3, location: "Mason Lake"});
+   expect(result.added).to.be.false;
  });
 }); 
 
