@@ -3,10 +3,10 @@
     <body>
         <a href="/">Home</a>
         {{#if result}}
-         <h2>{{name}} has been deleted</h2>
-        <p>remaining total: {{result.total}}</p>
+         <h2>{{result.name}} has been deleted</h2>
+        
         {{else}}
-        <h2>{{name}} has not been deleted</h2>
+        <h2>{{result.name}} has not been deleted</h2>
         <p>remaining total: {{result.total}}</p>
         {{/if}}
 

@@ -23,19 +23,17 @@ app.get('/', (req, res, next) => {
             //console.log(mushroom.length);
            // console.log(mush);
             res.type('text/html');
-            res.render('home', {mushrooms: mush});
+            res.render('home', {mushrooms: mush, wantDisplay: false});
             
          });     
 });
+
 app.get('/getall', (req,res, next) => {
        mushroom.find({}, (err, mush) => {
          if (err) return next(err);
-           console.log(mush.length);
-         //  else {
-       // let mush = 
+           console.log(mush.length); 
         res.type('text/html');
-      //  res.render('home', {mushrooms: mush});
-        res.render('home', {mushrooms: mush});
+        res.render('home', {mushrooms: mush, wantDisplay: true});
      });
      });
     
@@ -60,38 +58,20 @@ app.post('/search', (req,res, next) => {
         }); 
      }); 
 
-/*    // handle POST
-app.post('/search', (req,res) => {
-    res.type('text/html');
-    console.log(req.body) //display parsed form submission
-    let found = mushrooms.get(req.body.name);
-    res.render("details", {name: req.body.name, result: found});
-});*/
-
-
-
-//app.get('/get', (req,res) => {
-//    let result = mushrooms.get(req.query.name.toLowerCase()); //get mushroom object
-//    res.type('text/html');
-//    //middleware are all functions happening before we send respone back(all above here) 
-//    res.render('details', {name: req.query.name, result: result}); 
-//})
-
-
-
 //5 handle GET 
 app.get('/delete', (req,res, next) => {
-    mushroom.remove({'name':req.query.name}, (err,result) =>{
+    mushroom.deleteOne({'name':req.query.name}, (err,name) => {
         if(err) return next(err);
-        //return # of items deleted
-    //    let deleted = result.result.n !==0 //n will be 0 if no docs are deleted
-    mushroom.count((err, total)=> {    
+      
+        console.log(name);
+        console.log(req.query.name);
+        mushroom.countDocuments((err, total) => {   
+   // mushroom.countDocuments((err, total) => {   
         res.type('text/html');
-        res.render('delete', {name: req.query.name, deleted: result.result.n !==0, total: total}); 
-        
+        res.render('delete',  {name: req.query.name, result: name, total: total }); 
     });
     
-    });
+  });
 });
 // insert or update a single record
 //it is adding but not showing it is added
@@ -111,29 +91,6 @@ app.post('/add', (req, res, next) => {
     });
 });
  
- /*   app.get('/api/v1/add/:title/:author/:pubdate', (req,res, next) => {
-    // find & update existing item, or add new 
-    let title = req.params.title;
-    Book.update({ title: title}, {title:title, author: req.params.author, pubdate: req.params.pubdate }, {upsert: true }, (err, result) => {
-        if (err) return next(err);
-        // nModified = 0 for new item, = 1+ for updated item 
-        res.json({updated: result.nModified});
-    });
-});*/
-/*
-app.post('/add', (req,res, next) => {
-    res.type('text/html');
-    console.log(req.body) //display parsed form submission
-    let newMushroom = {"name":req.body.name, "size":req.body.size, "location":req.body.location}
-    let result = mushrooms.add(newMushroom);
-    if (result.added) {
-        res.send("Added:" + req.body.name + "<br>New total = " +result.total + back_link);
-    } else {
-        res.end( req.body.name + " is already in our database" + back_link);
-    }
-    
-});*/
-    
 
 // define 404 handler
 app.use( (req,res) => {

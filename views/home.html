@@ -29,11 +29,14 @@
             <button type="submit">Submit</button>
         </div>
 </form>     
-    <p>Current list of mushrooms:</p>
+    
 <ul>
-    {{#each mushrooms}}
-    <li><a href="/get?name={{name}}">{{name}}</a></li>
-    {{/each}}
+    {{#if wantDisplay}}
+        <p>Current list of mushrooms:</p>
+        {{#each mushrooms}}
+            <li><a href="/get?name={{name}}">{{name}}</a></li>
+        {{/each}}
+    {{/if}}
 
 </ul>
 
