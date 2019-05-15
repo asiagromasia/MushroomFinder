@@ -1,5 +1,11 @@
 <html>
 <body>
+<ul>
+    {{#if justAdded}}
+        <h1>Following is just added mushroom </h1>
+    {{/if}}
+
+</ul>
   <h2>Details for mushroom name: {{result.name}}</h2>
   {{#if result}}
     <li>Name: {{ result.name }}
