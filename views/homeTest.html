@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+ <head>
+    <title>React Project</title>
+     <script src="https://unpkg.com/react@16.7.0/umd/react.development.js">     </script>
+     <script src="https://unpkg.com/react-dom@16.7.0/umd/react-dom.development.js">     </script>
+     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+     <style>
+         .heading {
+             color: red;
+         }
+     </style>
+    </head>
+    <body>
+    <div id="root"></div>
+        <script type="text/babel">
+           const lakeList = [
+               {id: 1, name: "Echo Lake", trailhead: "Echo Lake"},
+               {id: 2, name: "Blue Lake", trailhead: "Blue Lake"},
+               {id: 3, name: "Angel Lake", trailhead:"Bayview"},
+    
+           ];
+            
+           const App = ({lakes}) => (
+               <ul>
+                   {lakes.map(lake =>
+                         <li key={lake.id}>{lake.name} | Trailhead: {lake.trailhead}</li>
+                    )}
+                </ul>
+            )
+           
+        ReactDOM.render(
+            <App lakes={lakeList} />,
+            document.getElementById("root")
+        );
+        </script>
+    </body>
+</html>   
+    
+<!--   
+//assignes unique id to lakes so easier for developing and no warnings
+<body>
+    <div id="root"></div>
+        <script type="text/babel">
+           const lakeList = ["Echo Lake", "Blue Lake", "Angel Lake"];
+            
+           const App = ({lakes}) => (
+               <ul>
+                   {lakes.map((lake, i) =>
+                         <li key={i}>{lake}</li>
+                    )}
+                </ul>
+            )
+           
+        ReactDOM.render(
+            <App lakes={lakeList} />,
+            document.getElementById("root")
+        );
+        </script>
+    </body>
+    
+
+//wyswietla jezioro lub resort w zaleznosci czy true orfalse
+<body>
+    <div id="root"></div>
+        <script type="text/babel">
+            const Lake = ({name}) => <h1>{name}</h1>;   //COMPONENT
+            const SkiResort = ({name}) => <h1>{name}</h1>; //COMPONENT
+            
+           const App = ({summer}) => (
+               <div>
+                   {summer 
+                       ? <Lake name="Lake Tahoe"/>
+                       : <SkiResort name="Alpine Meadows" />}
+                </div>
+               
+           )    
+            
+        ReactDOM.render(
+            <App summer={true} />,
+            document.getElementById("root")
+        );
+        </script>
+    </body>
+    
+
+
+ <body>
+    <div id="root"></div>
+        <script type="text/babel">
+            const Lake = ({name}) => <h1>{name}</h1>;
+            
+            class App extends React.Component {
+                state = {
+                    loggedIn: false
+                }
+                logIn = () => this.setState({loggedIn: true})
+                logOut = () => this.setState({loggedIn: false})
+                render() {   //render component inside render class
+                    return (
+                        <div>
+                            <button onClick={this.logIn}>Log In</button>
+                            <button onClick={this.logOut}>Log Out</button>
+                            <div>The user is {this.state.loggedIn ? "logged in" : "not logged in"}.</div>
+                            <Lake name="Lake Tahoe" />
+                            <Lake name="Lake Angel" />
+                            <Lake name="Angora Lake" />
+                            <Lake name="bbbbb Lake" />
+                        </div>
+                    )
+                }
+            }        
+            
+        ReactDOM.render(
+            <App />,
+            document.getElementById("root")
+        );
+        </script>
+    </body>
+
+
+  const App = () => (
+//                <div>
+//                    <Lake name="Lake Tahoe" />
+//                    <Lake name="Lake Angel" />
+//                    <Lake name="Angora Lake" />
+//                    <Lake name="bbbbb Lake" />
+//                </div>
+//            );
+//           
+   <body>
+    <div id="root"></div>
+        <script type="text/babel">
+
+            const Hello = (props) => {  //if braces then you need to add return statement
+                console.log(props)
+                return (
+                    <div className="heading">
+                        <h1>Welcome to {props.library}</h1>
+                        <p>{props.message}</p>
+                    </div>  
+                )
+            }
+            
+        ReactDOM.render(
+            <Hello library="React" message="Enjoy!" />,
+            document.getElementById("root")
+        );
+        </script>
+    </body>
+</html>
+<!--    
+    <body>
+    <div id="root"></div>
+        <script type="text/babel">
+            let city = "Madrid";
+        ReactDOM.render(
+            <h1 className="heading">Hello {city}</h1>,
+            document.getElementById("root")
+        );
+        </script>
+    </body>
+</html>
+
+if id="x" => in style refer as #x
+if className="x" in style refer as .x
+    <body>
+    <div id="root"></div>
+        <script type="text/javascript">
+        ReactDOM.render(
+            React.createElement(
+                "div",
+                null,
+                React.createElement(
+                    "h1",
+                    null,
+                    "oh hello!"
+                )
+            ),
+            document.getElementById("root")
+        );
+        </script>
+    </body>
+-->

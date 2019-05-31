@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Witaj in Advanced JavaScript class presenting mushrooms finder!</h2>
+
+
+<form method="POST" action="/search">
+<!-- if you want another value you could add: 
+<input type=hidden name="hush" val="hidden, but not secret!">-->
+        <div>
+            <label for="mashName">Find following mushroom:</label>
+            <input type="text" id="mashName" name="name">
+        </div>
+        <div>
+            <button type="submit">Submit</button>
+        </div>
+</form> 
+    <form method="POST" action="/add">
+        <div>
+            <label for="newMush">Add new mushroom:</label>
+            <input type="text" id="newMush" name="name">
+            <label for="newMush"> size:</label>
+            <input type="text" id="newMushs" name="size">
+            <label for="newMush">location:</label>
+            <input type="text" id="newMush" name="location">
+        </div>
+        <div>
+            <button type="submit">Submit</button>
+        </div>
+</form>     
+    
+<ul>
+    {{#if wantDisplay}}
+        <p>Current list of mushrooms:</p>
+        {{#each mushrooms}}
+            <li><a href="/get?name={{name}}">{{name}}</a></li>
+        {{/each}}
+    {{/if}}
+
+</ul>
+
+
+</body>
+</html>
+
