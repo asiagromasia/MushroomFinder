@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
         <title>React Project</title>
         <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
         <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
         <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
         <style>
+        button {
+          background-color: #ad6e4c69; 
+            margin-right: 10px;
+        }
         .mushItem:hover {
              background-color: #ad6e4c;
         }
@@ -40,7 +46,7 @@
             display: grid;
             grid-template-columns: 45% 45%; 
             grid-gap: 20px;
-            margin: 20px auto 20px 20px
+            margin: 20px auto 20px 20px;
         
             
         }
@@ -62,96 +68,175 @@
       
     class MushApp extends React.Component { 
         constructor(props){
+                    // Pass props to parent class
                  super(props);//be sure to instantiate parent class
-                    //set initial state using data from serverapplication 
+                    // Set initial state w/ hard-coded data
                 this.state = {
-                    items: {{{mushrooms}}},
-                    selectedItem: '', //search term
-                    showHide: 'hidden' 
+                    data: {{{mushrooms}}},
+                    filter: "", //search term
+                    curItem: {} //currently selected item 
                     };
-                this.showDetail = this.showDetail.bind(this);
+
+
+        // bind App context to functions for reference in sub components
+            this.onSearchChange = this.onSearchChange.bind(this);
+            this.onChange = this.onChange.bind(this);
+            this.onSave = this.onSave.bind(this);
+            this.onDelete = this.onDelete.bind(this);
+            this.onClear = this.onClear.bind(this);
+            this.showDetails = this.showDetails.bind(this);
+      
         }
-        componentDidMount() {   
-            // code to execute when component first rendered to DOM
-        } 
-        componentWillUnmount() {
-            // code to execute when component is removed from DOM
-        }
-        showDetail(e) {
-            let onClickItem = this.state.items.find((item) => {
-                return item._id == e.target.id;
+        // search handler
+        onSearchChange(event) {
+            // set search term. react will handle component updates 
+            this.setState({filter: event.target.value.toLowerCase() });
+          }
+
+        //show item details
+        showDetails(event) {
+            // event.target is list item clicked
+            let editItem = this.state.data.find((item) => {
+            return item._id == event.target.id;
             });
-            this.setState({selectedItem: onClickItem});
-            console.log(this.state.selectedItem);
-        }
+            this.setState({curItem: editItem});
+            }
+
+          // clear details form
+        onClear() {
+            this.setState({curItem: {}});
+          }
+
+          // handle detail changes
+        onChange(event) {
+            var newItem = this.state.curItem;
+            newItem[event.target.name] = event.target.value
+            this.setState({curItem: newItem});
+          }
+
+          // Handle item save
+        onSave() {
+            let newItem = this.state.curItem;
+            if (!newItem.name) {
+              return;
+            }
+            
+        fetch("/api/v1/add/", {
+          method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newItem)
+        }).then(res => res.json())
+        	.then((json) => {
+          let newData;
+          if (!newItem._id) { // add new item to array
+            newData = this.state.data;
+            newItem._id = json._id;
+            newData.push(newItem);
+          } else { // update existing item 
+            newData = this.state.data.map((item) => {
+              if (item._id === newItem._id) {
+                item = newItem; 
+              }
+              return item;
+            });          
+          }
+  
+          // Update state with new array
+          this.setState({data: newData});
+        });
+      }
+      
+      // Handle item delete
+      onDelete(){
+        let id = this.state.curItem._id;
+          
+        fetch("/api/v1/mushroom/delete/" + id).then((response) => {
+          return response.json();
+        }).then((results) => {
+          // Filter all items except the one to be removed
+          const remainder = this.state.data.filter((item) => {
+            return item._id !== id;
+          });
+          // Update state with new array
+          this.setState({data: remainder});
+          this.setState({curItem: {}});
+        });
+      }
+
+
         render() {
             return (
                 <div>
                     <h1>Welcome to The NorthWest Mushroom Finder!</h1>
-                    <SearchForm/>
-                    
+                    <SearchForm filter={this.state.filter} change={this.onSearchChange}/>
                     <div className="grid-container">
                         <div className="grid-item">
                             <MushList 
-                                items={this.state.items} 
-                                showDetail={this.showDetail}
-                            />
+                                items={this.state.data}
+                                filter={this.state.filter}
+                                show={this.showDetails.bind(this)} />
                         </div>
-                        
                         <div className="grid-item">
                             <MushDetail
-                                item={this.state.selectedItem}
-                            />
+                                item={this.state.curItem} change={this.onChange} save={this.onSave} reset={this.onClear} delete={this.onDelete} />
                         </div>
                     </div>
                 </div>
             );
         }
 }
-    const SearchForm = () => {
+    const SearchForm = (props) => {
         return (
             <div className="searchForm">
                 <input type="text" placeholder="Search a Mushroom"
-                    //value={this.props.filterText}
-                    //onChange={this.handleFilterTextChange}
+                    value={props.filter}
+                    onChange={props.change}
                 />
             </div>
         );
     }
-    
-    const MushList = ({className, items, showDetail}) => {
+    const Name=({name}) => {
         return (
-        <div className="left">
-               <h3><u>Current list of mushrooms:</u></h3> 
-                <ul>
-                {items.map( (item, i) => (
-                    <div key={item._id}>
-                        <li id={item._id} 
-                            onClick={showDetail}
-                            className="MushItem">
-                            {item.name}
-                        </li>
-                    </div> 
-                    ))}
-                           
-                </ul>
-         </div>
-    );
+            <div><h2>{name}</h2></div>
+        )
     }
-    const MushDetail = ({item}) => {
+     
+    const MushList = ({items, filter, show}) => {
+        // return items that match search entry field, or all items if no entry
+        const itemNodes = items.map( (item) => {
+               
+            if (!filter || item.name.toLowerCase().includes(filter)) { 
+          return (
+              <div> 
+                 <li id={item._id} key={item._id} onClick={show}>{item.name}</li>
+            </div> )
+             
+        }
+        });
+        return ( 
+            <div className="left">
+                <h3><u>Current list of mushrooms:</u></h3>   
+                <span id="item-list"><ul>{itemNodes}</ul></span>
+            </div> 
+        )
+    }
+        
+   
+    
+    const MushDetail = (props) => {
         return (
             <div className="right">
             <h3><u>Mushroom Details:</u></h3> 
-                <div>
-                   <ul>
-                    <li>Name: {item.name}</li>
-                    <li>Size: {item.size}</li>
-                    <li>Location: {item.location}</li>
+                <form onChange={props.change}>
+         Name: <input type="text" name="name" placeholder="mushroom name" value={props.item.name || ""} /><p/>
+         Size: <input type="text" name="size" placeholder="mushroom size" value={props.item.size || ""} /><p/>
+         Location: <input type="text" name="location" placeholder="mushroom location" value={props.item.location || ""} /><p/>
                  
-                    </ul>
-            
-                </div>
-            </div>
+                </form>
+                <button onClick={props.save}>Save</button>
+                <button onClick={props.reset}>Reset</button>
+                <button onClick={props.delete}>Delete</button>
+            </div>   
         );
     }
     
