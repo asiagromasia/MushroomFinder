@@ -1,2 +1,2 @@
 # ITC230
-advanced JavaScript
+advanced JavaScript, server-side scripting
